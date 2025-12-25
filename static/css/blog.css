@@ -1,0 +1,108 @@
+body {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
+}
+
+/* Header */
+.blog-header {
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+}
+
+.blog-header-logo {
+    font-family: "Playfair Display", serif;
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+/* Navbar */
+.nav-scroller {
+    background: #ffffff;
+    border-radius: 5px;
+}
+
+.nav a {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover {
+    color: #ff9800;
+    text-decoration: none;
+}
+
+/* Hero Section */
+.jumbotron {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border-radius: 12px;
+}
+
+.jumbotron h1 {
+    font-weight: bold;
+}
+
+.jumbotron p {
+    font-size: 1.1rem;
+}
+
+/* Cards */
+.card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* Blog Post */
+.blog-post {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.blog-post-title {
+    font-size: 2.2rem;
+    font-weight: bold;
+}
+
+.blog-post-meta {
+    color: #888;
+}
+
+/* Sidebar */
+.blog-sidebar .p-3 {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Buttons */
+.btn-warning {
+    background: linear-gradient(45deg, #ff9800, #ff5722);
+    border: none;
+    color: #fff;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(45deg, #ff5722, #ff9800);
+}
+
+/* Footer */
+.blog-footer {
+    background: #222;
+    color: #ccc;
+    padding: 2rem 0;
+}
+
+.blog-footer a {
+    color: #ff9800;
+}
+
+.blog-footer a:hover {
+    text-decoration: underline;
+}
