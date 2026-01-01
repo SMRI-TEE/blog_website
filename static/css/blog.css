@@ -1,3 +1,4 @@
+
 body {
     font-family: "Segoe UI", Roboto, Arial, sans-serif;
     background-color: #f5f6fa;
@@ -22,28 +23,15 @@ body {
     border-radius: 5px;
 }
 
-.nav a {
+.category-link {
+    color: #6c757d !important;
     font-weight: 500;
-    transition: color 0.3s ease;
+    text-decoration: none !important;
 }
 
-.nav a:hover {
-    color: #ff9800;
-    text-decoration: none;
-}
-
-/* Hero Section */
-.jumbotron {
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    border-radius: 12px;
-}
-
-.jumbotron h1 {
-    font-weight: bold;
-}
-
-.jumbotron p {
-    font-size: 1.1rem;
+.category-link:hover {
+    color: #ff9800 !important;
+    text-decoration: underline !important;
 }
 
 /* Cards */
@@ -57,42 +45,6 @@ body {
     box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
-/* Blog Post */
-.blog-post {
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-}
-
-.blog-post-title {
-    font-size: 2.2rem;
-    font-weight: bold;
-}
-
-.blog-post-meta {
-    color: #888;
-}
-
-/* Sidebar */
-.blog-sidebar .p-3 {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-
-/* Buttons */
-.btn-warning {
-    background: linear-gradient(45deg, #ff9800, #ff5722);
-    border: none;
-    color: #fff;
-}
-
-.btn-warning:hover {
-    background: linear-gradient(45deg, #ff5722, #ff9800);
-}
-
-/* Footer */
 .blog-footer {
     background: #222;
     color: #ccc;

@@ -22,8 +22,22 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.home,name='home')
+    path('',views.home,name='home'),
+    path('category/<int:id>/',views.posts_by_category,name='posts_by_category'),
+    path('blogs/search/',views.search,name='search'),
+    path('blogs/<slug:slug>/',views.blogs,name='blogs'),
+    path('register/',views.register,name='register'),
+    path('login/',views.login,name='login'),
+    path('logout/',views.logout,name='logout'),
+    path('dashboard/',views.dashboard,name='dashboard'),
     
-    
-    
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # for categories crud 
+    path('categories/',views.category_view,name='categories'),
+    path('categories/add/',views.add_categories,name='add_categories'),
+    path('categories/edit/<int:pk>/',views.edit_categories,name='edit_categories'),
+    path('categories/delete/<int:pk>/',views.delete_categories,name='delete_categories'),
+       
+]+ static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT
+)+ static(
+    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

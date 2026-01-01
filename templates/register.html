@@ -1,0 +1,14 @@
+
+{% extends "./samedesign/body.html" %}
+
+{% block content %}
+<h1 class = "text-center">Register</h1>
+{% load crispy_forms_tags %}
+<form action= "" method = "POST" , style = "width:500px; margin:auto;">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <input type = "submit" value = "Register">
+</form>
+
+{% endblock %}
+

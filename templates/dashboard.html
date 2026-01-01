@@ -1,0 +1,44 @@
+{% extends "samedesign/body.html" %}
+{% block content %}
+
+<div class="container-fluid mt-4 px-4">
+  <div class="row">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="col-md-3">
+      {% include "samedesign/leftsidebar.html" %}
+    </div>
+
+    <!-- STATS -->
+    <div class="col-md-5">
+
+      <div class="card shadow mb-3">
+        <div class="card-body text-center">
+          <h6 class="text-muted">Total Categories</h6>
+          <h2>{{ total_categories }}</h2>
+        </div>
+      </div>
+
+      <div class="card shadow mb-3">
+        <div class="card-body text-center">
+          <h6 class="text-muted">Total Blogs</h6>
+          <h2>{{ total_posts }}</h2>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PIE CHART -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <div class="card-body text-center">
+          <h5>Posts per Category</h5>
+          <img src="data:image/png;base64,{{ chart }}" class="img-fluid mt-2" >
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
