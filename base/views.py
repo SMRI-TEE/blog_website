@@ -1,10 +1,11 @@
 from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
-from base.models import Category,Blog
+from base.models import Category,Blog,Comment
 from django.db.models import Q
 from .forms import RegistrationForm,CategoryForm,BlogForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -47,9 +48,21 @@ def posts_by_category(request,id):
 # this function is used for displaying a single blog.
 def blogs(request,slug):
     single_post = get_object_or_404(Blog,slug=slug,status=1)
-    
+    # for displaying comment
+    if request.method=='POST':
+        comment = Comment()
+        comment.user = request.user
+        comment.blog = single_post
+        comment.comment = request.POST['comment']
+        comment.save()
+        return HttpResponseRedirect(request.path_info)
+    comments = Comment.objects.filter(blog=single_post)
+    comment_count = comments.count()
     context = {
         'single_post':single_post,
+        'comments':comments,
+        'comment_count':comment_count
+        
     }
     return render(request,'blogs.html',context)
 
@@ -241,3 +254,5 @@ def delete_posts(request, pk):
     posts = get_object_or_404(Blog, pk=pk)
     posts.delete()
     return redirect('posts')
+
+
