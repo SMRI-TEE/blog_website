@@ -16,8 +16,8 @@ class Category(models.Model):
   
   
 STATUS_CHOICE =   (
-    (0,'Draft'),
-    (1,'Published')
+    (0, 'Draft'),
+    (1, 'Published'),
 )      
 class Blog(models.Model):
     title = models.CharField(max_length=150,unique=True)

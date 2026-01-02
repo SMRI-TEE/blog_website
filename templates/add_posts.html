@@ -1,0 +1,28 @@
+{% extends "samedesign/body.html" %}
+
+{% block content %}
+
+
+<div class="container-fluid mt-4 px-4">
+  <div class="row">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="col-md-3">
+      {% include "samedesign/leftsidebar.html" %}
+    </div>
+
+     {% load crispy_forms_tags %} 
+    <!-- RIGHT TABLE , mendatory while using image field enctype="multipart/form-data" -->
+    <div class="col-md-9">
+        <h3>Adding Posts</h3>
+     <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %} 
+         {{ form | crispy }} 
+        
+        <button type="submit" class="btn btn-warning">Submit</button>
+     </form>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "samedesign/body.html" %}
+{% block content %}
+
+<div class="container-fluid mt-4 px-4">
+  <div class="row">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="col-md-3">
+      {% include "samedesign/leftsidebar.html" %}
+    </div>
+
+    <!-- RIGHT TABLE -->
+    <div class="col-md-9">
+      <h3><a href="{% url 'add_posts' %}" class = "btn btn-warning text-light">Add New Post</a></h3>
+      <div class="card shadow">
+        <div class="card-body">
+
+          <h4 class="mb-3">All Posts</h4>
+
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Author</th>
+                <th>Status</th>
+                <th>Featured</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in posts %}
+              <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.title }}</td>
+                <td>{{ p.category }}</td>
+                <td>{{ p.author }}</td>
+                <td>
+                    {% if p.status == 1 %}
+                        <span>Published</span>
+                    {% else %}
+                        <span>Draft</span>
+                    {% endif %}
+                </td>
+                <td>{{ p.is_featured }}</td>
+                <td>
+                  <a href="{% url 'edit_posts' p.id %}"><i class = "fa fa-edit text-success" ></i></a> &nbsp;  
+                  <a href="{% url 'delete_posts' p.id %}"><i class = "fa fa-trash text-danger" ></i></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,9 +1,10 @@
 from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
 from base.models import Category,Blog
 from django.db.models import Q
-from .forms import RegistrationForm,CategoryForm
+from .forms import RegistrationForm,CategoryForm,BlogForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
+from django.contrib import messages
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -11,6 +12,7 @@ import io
 import urllib, base64
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 # Create your views here.
 def home(request):
@@ -155,8 +157,12 @@ def add_categories(request):
     if request.method=="POST":
         form = CategoryForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('categories')     
+            category_name = form.cleaned_data['category_name']
+            if Category.objects.filter(category_name__iexact=category_name).exists():
+                messages.error(request, "Category already exists.")
+            else:
+                form.save()
+                return redirect('categories')     
     
     form = CategoryForm()
     context = {
@@ -186,3 +192,52 @@ def delete_categories(request, pk):
     category = get_object_or_404(Category, pk=pk)
     category.delete()
     return redirect('categories')
+
+def post_view(request):
+    posts = Blog.objects.all()
+    return render(request,'posts.html',{'posts':posts})
+
+def add_posts(request):
+    if request.method == "POST":
+        form = BlogForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            title = form.cleaned_data['title']
+
+            if Blog.objects.filter(title__iexact=title).exists():
+                messages.error(request, "Title already exists.")
+            else:
+                post = form.save(commit=False)
+                post.author = request.user
+                post.slug = slugify(title)
+                post.save()
+                return redirect('posts')
+
+    else:
+        form = BlogForm()
+
+    return render(request, 'add_posts.html', {'form': form})
+
+
+def edit_posts(request, pk):
+    posts = get_object_or_404(Blog, pk=pk)
+
+    if request.method == "POST":
+        form = BlogForm(request.POST, instance=posts)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')  
+    else:
+        form = BlogForm(instance=posts)
+
+    context = {
+        'form': form,
+        'posts': posts,
+    }
+    return render(request, 'edit_posts.html', context)
+
+
+def delete_posts(request, pk):
+    posts = get_object_or_404(Blog, pk=pk)
+    posts.delete()
+    return redirect('posts')
