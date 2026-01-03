@@ -1,5 +1,6 @@
 from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
 from base.models import Category,Blog,Comment
+from django.contrib.auth.models import User
 from django.db.models import Q
 from .forms import RegistrationForm,CategoryForm,BlogForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -254,5 +255,12 @@ def delete_posts(request, pk):
     posts = get_object_or_404(Blog, pk=pk)
     posts.delete()
     return redirect('posts')
+
+def users(request):
+    users = User.objects.all()
+    context = {
+        'users':users
+    }
+    return render(request,'users.html',context)
 
 

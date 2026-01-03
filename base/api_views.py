@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions
 from .models import Category, Blog, Comment
 from .serializers import CategorySerializer, BlogSerializer, CommentSerializer
 from rest_framework.response import Response
-
+from rest_framework.permissions import AllowAny
 
 class CategoryApiView(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -16,6 +16,7 @@ class BlogApiView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+        
 
 
 class CommentApiView(viewsets.ModelViewSet):
