@@ -20,7 +20,7 @@ from base import views
 from django.conf import settings
 from django.conf.urls.static import static
 from base.api_views import CategoryApiView, BlogApiView, CommentApiView
-from rest_framework.authtoken.views import obtain_auth_token
+# from rest_framework.authtoken.views import obtain_auth_token
 from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -54,7 +54,6 @@ urlpatterns = [
     path('users/',views.users,name='users'), 
     # for rest api 
     path('api/', include('base.api_urls')), 
-    path('api/token/', obtain_auth_token),
        
        
 ]+ static(

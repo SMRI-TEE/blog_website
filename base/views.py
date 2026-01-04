@@ -237,7 +237,7 @@ def edit_posts(request, pk):
     posts = get_object_or_404(Blog, pk=pk)
 
     if request.method == "POST":
-        form = BlogForm(request.POST, instance=posts)
+        form = BlogForm(request.POST, request.FILES,instance=posts)
         if form.is_valid():
             form.save()
             return redirect('posts')  
