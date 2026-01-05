@@ -11,7 +11,7 @@
 
     <!-- RIGHT TABLE -->
     <div class="col-md-9">
-      <h3><a href="{% url 'add_posts' %}" class = "btn btn-warning text-light">Add New Post</a></h3>
+      <h3><a href="{% url 'add_users' %}" class = "btn btn-warning text-light">Add New User</a></h3>
       <div class="card shadow">
         <div class="card-body">
 
@@ -54,8 +54,8 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href=""><i class = "fa fa-edit text-success" ></i></a> &nbsp;  
-                  <a href=""><i class = "fa fa-trash text-danger" ></i></a>
+                  <a href="{% url 'edit_user' user.id%}"><i class = "fa fa-edit text-success" ></i></a> &nbsp;  
+                  <a href="{% url 'delete_user' user.id%}"><i class = "fa fa-trash text-danger" ></i></a>
                 </td>
               </tr>
               {% endfor %}

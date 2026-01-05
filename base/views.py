@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
 from base.models import Category,Blog,Comment
 from django.contrib.auth.models import User
 from django.db.models import Q
-from .forms import RegistrationForm,CategoryForm,BlogForm
+from .forms import RegistrationForm,CategoryForm,BlogForm,AddUserForm,EditUserForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 from django.contrib import messages
@@ -263,4 +263,38 @@ def users(request):
     }
     return render(request,'users.html',context)
 
+def add_users(request):
+    if request.method == "POST":
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('users')
+    form = AddUserForm()
+    context = {
+        'form':form
+    }
+    return render(request,'add_users.html',context)
 
+
+def edit_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+
+    if request.method == "POST":
+        form = EditUserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('users')
+    else:
+        form = EditUserForm(instance=user)
+
+    context = {
+        'form': form,
+        'user': user
+    }
+    return render(request, 'edit_user.html', context)
+
+ 
+def delete_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    user.delete()
+    return redirect('users')    
