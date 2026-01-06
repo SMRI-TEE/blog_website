@@ -84,7 +84,7 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('register')     
+            return redirect('login')     
     else :
         form = RegistrationForm()
     context={
@@ -122,16 +122,18 @@ def logout(request):
     return redirect('home')
 
 # for dashboard 
+
+# nan error due to zero blogs.
 @login_required(login_url='login')
 def dashboard(request):
     total_categories = Category.objects.count()
-    total_posts = Blog.objects.count()  # total posts
+    total_posts = Blog.objects.count()
 
-    # Blog count per category
     category_data = Category.objects.annotate(
         total_posts=Count('blog')
     )
 
+    # ✅ MUST be defined first
     labels = []
     sizes = []
 
@@ -139,13 +141,16 @@ def dashboard(request):
         labels.append(category.category_name)
         sizes.append(category.total_posts)
 
-    # 🔹 Create pie chart using matplotlib
-    plt.figure(figsize=(6,6))
+    # ✅ Handle empty / zero data
+    if not sizes or sum(sizes) == 0:
+        labels = ['No Blogs Available']
+        sizes = [1]
+
+    plt.figure(figsize=(6, 6))
     plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
     plt.title('Blogs by Category')
     plt.tight_layout()
 
-    # 🔹 Convert plot to image
     buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -153,16 +158,16 @@ def dashboard(request):
     buffer.close()
     plt.close()
 
-    graphic = base64.b64encode(image_png)
-    graphic = graphic.decode('utf-8')
+    graphic = base64.b64encode(image_png).decode('utf-8')
 
     context = {
         'total_categories': total_categories,
-        'total_posts': total_posts, 
+        'total_posts': total_posts,
         'chart': graphic,
     }
 
     return render(request, 'dashboard.html', context)
+
 
 def category_view(request):   
     return render(request,'categories.html')
