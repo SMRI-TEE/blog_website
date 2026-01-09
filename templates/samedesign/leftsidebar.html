@@ -5,7 +5,11 @@
     {% if perms.auth.view_user %}
     <a href="{% url 'users' %}" class="btn btn-outline-secondary">Users</a>
     {% endif %}
-    <a href="{% url 'categories' %}" class="btn btn-outline-success">Categories</a>
+    {% if request.user.is_superuser %}
+        <a href="{% url 'categories' %}" class="btn btn-outline-success">Categories</a>
+    {% endif %}
+
+    
     <a href="{% url 'posts' %}" class="btn btn-outline-info">Posts</a>
     <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
   </div>

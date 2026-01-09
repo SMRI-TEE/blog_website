@@ -15,6 +15,15 @@ import urllib, base64
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
+from django.contrib.auth.decorators import user_passes_test
+
+def superuser_required(view_func):
+    decorated_view_func = user_passes_test(
+        lambda u: u.is_active and u.is_superuser,
+        login_url='login'
+    )(view_func)
+    return decorated_view_func
+
 
 # Create your views here.
 def home(request):
@@ -122,7 +131,6 @@ def logout(request):
     return redirect('home')
 
 # for dashboard 
-
 # nan error due to zero blogs.
 @login_required(login_url='login')
 def dashboard(request):
@@ -133,7 +141,6 @@ def dashboard(request):
         total_posts=Count('blog')
     )
 
-    # ✅ MUST be defined first
     labels = []
     sizes = []
 
@@ -141,7 +148,7 @@ def dashboard(request):
         labels.append(category.category_name)
         sizes.append(category.total_posts)
 
-    # ✅ Handle empty / zero data
+    #  Handle empty data.
     if not sizes or sum(sizes) == 0:
         labels = ['No Blogs Available']
         sizes = [1]
@@ -172,6 +179,7 @@ def dashboard(request):
 def category_view(request):   
     return render(request,'categories.html')
 
+@superuser_required
 def add_categories(request):
     if request.method=="POST":
         form = CategoryForm(request.POST)
@@ -190,6 +198,7 @@ def add_categories(request):
     }
     return render(request,'add_categories.html',context)
 
+@superuser_required
 def edit_categories(request, pk):
     category = get_object_or_404(Category, pk=pk)
 
@@ -207,6 +216,7 @@ def edit_categories(request, pk):
     }
     return render(request, 'edit_categories.html', context)
 
+@superuser_required
 def delete_categories(request, pk):
     category = get_object_or_404(Category, pk=pk)
     category.delete()

@@ -1,36 +1,26 @@
-from django.contrib import admin
-from django.urls import path
-from base.api_views import CategoryApiView, BlogApiView, CommentApiView
-from django.conf import settings
 from django.conf.urls.static import static
+from django.conf import settings
+from django.urls import path
+from base.api_views import CategoryApiView, BlogApiView, CommentApiView, RegisterView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from base.api_views import ApiLogoutView
 
 urlpatterns = [
-    path('categories/', CategoryApiView.as_view({
-        'get': 'list',
-        'post': 'create'
-    })),
-    path('categories/<int:pk>/', CategoryApiView.as_view({
-        'get': 'retrieve',
-        'put': 'update',
-        'delete': 'destroy'
-    })),
+    # JWT Authentication
+    path('register/', RegisterView.as_view(), name='api_register'),
+    path('login/', TokenObtainPairView.as_view(), name='api_login'),
+    path('logout/', ApiLogoutView.as_view(), name='api_logout'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('blogs/', BlogApiView.as_view({
-        'get': 'list',
-        'post': 'create'
-    })),
-    path('blogs/<int:pk>/', BlogApiView.as_view({
-        'get': 'retrieve',
-        'put': 'update',
-        'delete': 'destroy'
-    })),
+    # Categories
+    path('categories/', CategoryApiView.as_view({'get': 'list', 'post': 'create'})),
+    path('categories/<int:pk>/', CategoryApiView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 
-    path('comments/', CommentApiView.as_view({
-        'get': 'list',
-        'post': 'create'
-    })),
-    path('comments/<int:pk>/', CommentApiView.as_view({
-        'delete': 'destroy'
-    })),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Blogs
+    path('blogs/', BlogApiView.as_view({'get': 'list', 'post': 'create'})),
+    path('blogs/<int:pk>/', BlogApiView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 
+    # Comments
+    path('comments/', CommentApiView.as_view({'get': 'list', 'post': 'create'})),
+    path('comments/<int:pk>/', CommentApiView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
+]
